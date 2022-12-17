@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LoginBlock = styled.div`
     padding-top: 120px;
@@ -29,23 +30,36 @@ const LoginBlock = styled.div`
 
 
 function Login () {
-    const [userId, setUserId] = useState('');
-    const [userPwd, setUserPwd] = useState('');
-    const onIdChange = e => {
-        setUserId(e.target.value)
-    };
+    const navigate = useNavigate();
+    const [inputs, setInputs] = useState({
+        userId: '',
+        userPwd: ''
+    })
+    const {userId, userPwd} = inputs;
 
-    const onPwdChange = e => {
-        setUserPwd(e.target.value)
+    const onChange = e => {
+        const {name, value} = e.target;
+
+        const nextInputs = {
+            ...inputs,
+            [name]: value
+        }
+
+        setInputs(nextInputs);
     }
 
     const login = async () => {
         try{
-            const response = await axios.post("http://localhost:3004/signUp", {
+            const response = await axios.post("/login", {
                 userId : userId,
                 userPwd : userPwd
             });
-            console.log(response);
+            if(response.data.userId === undefined || response.data.userPwd === undefined){
+                alert('아이디 혹은 비밀번호가 일치하지 않습니다.');
+                return;
+            }
+            alert(`${response.data.userId}님 환영합니다.`);
+            navigate("/", {replace:true});
         } catch (e) {
             console.log(e);
         }
@@ -58,8 +72,9 @@ function Login () {
             id="outlined-basic"
             label="id"
             variant="outlined"
+            name='userId'
             value={userId}
-            onChange={onIdChange}
+            onChange={onChange}
           />
           <TextField
             className="password"
@@ -67,8 +82,9 @@ function Login () {
             label="Password"
             type="password"
             autoComplete="current-password"
+            name='userPwd'
             value={userPwd}
-            onChange={onPwdChange}
+            onChange={onChange}
           />
           <Button
             className="loginBtn"

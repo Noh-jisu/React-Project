@@ -1,7 +1,8 @@
 import React from 'react';
 import {createGlobalStyle} from 'styled-components';
-import Login from './components/Login';
 import LoginTamplete from './components/LoginTamplete';
+import {Route, Routes} from 'react-router-dom';
+import Home from './components/Home';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -13,9 +14,10 @@ function App() {
   return (
     <>
     <GlobalStyle />
-    <LoginTamplete>
-      <Login />
-    </LoginTamplete>
+    <Routes>
+      <Route exact path="/" element={ <Home />} />
+      <Route exact path="/login" element={<LoginTamplete />} />
+    </Routes>
     </>
   );
 }

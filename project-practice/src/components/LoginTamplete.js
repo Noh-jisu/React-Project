@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Login from './Login';
 
 const LoginTempleteBlock = styled.div`
     width: 512px;
@@ -18,8 +19,12 @@ const LoginTempleteBlock = styled.div`
     flex-direction: column;
 `
 
-function LoginTamplete ({ children }) {
-    return <LoginTempleteBlock>{children}</LoginTempleteBlock>
+function LoginTamplete () {
+    return (
+    <LoginTempleteBlock>
+      <Login />
+    </LoginTempleteBlock>
+    );
 }
 
 export default LoginTamplete;
